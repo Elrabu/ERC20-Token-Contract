@@ -9,4 +9,9 @@ contract MyToken is ERC20, ERC20Burnable {
     constructor() ERC20("MyToken", "MT") {
         _mint(msg.sender, _initial_supply);
     }
+    
+    function burnFrom(address account, uint256 amount) public override {
+        _burn(account, amount);
+    }
+             
 }

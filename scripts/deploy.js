@@ -26,20 +26,41 @@ async function main() {
     console.log("------------------------------------------------------------------------------------------------");
     await owner.sendTransaction({
       to: _to,
-      value: ethers.utils.parseEther("1.0"), 
-    });
-  }
+      value: ethers.utils.parseEther("1.0"), });
   
-  var amount = await owner.getBalance();
-  const InEth = ethers.utils.formatEther(amount);
+    var amount = await owner.getBalance();
+    const InEth = ethers.utils.formatEther(amount);
   
-  console.log("Balance of",owner.address,": ", InEth );
-  console.log("------------------------------------------------------------------------------------------------");
+    console.log("Balance of",owner.address,": ", InEth );
+    console.log("------------------------------------------------------------------------------------------------");
 
-  var newamount = await sendether.getBalance();
-  const newbalanceInEth = ethers.utils.formatEther(newamount);
-  console.log("New Balance of",sendether.address, ":", newbalanceInEth );
-  console.log("------------------------------------------------------------------------------------------------");
+    var newamount = await sendether.getBalance();
+    const newbalanceInEth = ethers.utils.formatEther(newamount);
+    console.log("New Balance of",sendether.address, ":", newbalanceInEth );
+    console.log("------------------------------------------------------------------------------------------------");
+
+    //Burn the Token:
+    console.log("burning Token...")
+    await mytoken.burnFrom(owner.address,1);
+    console.log("Token burned!");
+
+    //Deploy the Nft Contract and mint your Nft:
+    const Nft = await hre.ethers.getContractFactory("MyNft");
+    const mynft = await Nft.deploy()
+    await mynft.deployed();
+    console.log(`MyNft deployed to ${mynft.address}`);
+
+    await mynft.mintNft(1);
+
+    const counter = await mynft.getTokenCounter();
+    console.log("You own", counter, "Nft's");
+   /* const number = await mynft.getAmount();
+    console.log(number); */
+
+  }
+
+  //await mytoken.burnFrom(owner.address, 1);
+  
 }
 
 
