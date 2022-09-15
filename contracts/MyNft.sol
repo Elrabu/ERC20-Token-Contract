@@ -6,6 +6,7 @@ pragma solidity 0.8.16;
 contract MyNft is ERC721 {
     uint256 private s_tokenCounter;
     uint private amount;
+
     constructor() ERC721("YourNft", "YN") {
          s_tokenCounter = 0;
     }
