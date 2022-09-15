@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-pragma solidity ^0.8.7;
+pragma solidity 0.8.16;
 
 contract MyNft is ERC721 {
     uint256 private s_tokenCounter;
@@ -10,7 +10,7 @@ contract MyNft is ERC721 {
          s_tokenCounter = 0;
     }
 
-    function mintNft(uint newamount) public returns(uint256,uint){
+    function mintNft(uint newamount) public returns(uint256,uint) {
         _safeMint(msg.sender, s_tokenCounter);
         s_tokenCounter = s_tokenCounter + 1;
         amount = newamount;

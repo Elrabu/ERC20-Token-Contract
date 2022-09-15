@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "got": "^12.4.1",
-    "hardhat": "^2.11.1"
+    "hardhat": "^2.11.2",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
