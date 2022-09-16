@@ -24,8 +24,12 @@ async function main() {
   console.log('address of user: ', user.address)
   await user.sendTransaction({
     to: mytoken.address,
-    value: ethers.utils.parseEther("1.0"), 
+    value: ethers.utils.parseEther("1.0"),
   });
+
+  //burn 
+  mytoken.burn(user.address,1000);
+  console.log("1000 Token burned"); 
   
 }
 

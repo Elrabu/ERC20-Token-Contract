@@ -4,13 +4,13 @@ require('@nomiclabs/hardhat-ethers');
 module.exports = {
   networks: {
     ganache: {
-      url: "http://127.0.0.1:8545",
+      url: "HTTP://172.27.240.1:7545",
       accounts: {
-        mnemonic: "kite fat expand gun blue frown fun wash avocado jaguar grid bring"
+        mnemonic: "over galaxy middle face grain index link boring sun sound leave music"
       }
     }
   },
-  solidity: "0.8.16",
+  solidity: "0.8.17",
 
   namedAccounts: {
     deployer: {

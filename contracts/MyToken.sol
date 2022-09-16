@@ -1,30 +1,39 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.16;
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-
+import './MyNft.sol';
 interface IMyNft {
-   function mintNft(uint newamount) external returns(uint256,uint);
+   function mintNft(uint256 burnedToken) external returns(uint256,uint);
+   
 }
 
-contract MyToken is ERC20Burnable {
+contract MyToken is ERC20Burnable{
 
     IMyNft nftContract;
+    address owner;
 
-    constructor() ERC20("MyToken", "MT") { }
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+        }
+
+    constructor() ERC20("MyToken", "MT") {
+        owner = msg.sender;
+     }
 
     function _burn(address account, uint256 amount) internal override {
         super._burn(account, amount);
-        // call mint nft
+        
     }
 
-    function setNftContractAddress(IMyNft addr) public { // onlyOwner
+    function setNftContractAddress(IMyNft addr) public  onlyOwner{ 
         nftContract = addr;
     }
 
-    function callMintNft(uint256 amount) internal {
+   /* function callMintNft(uint256 amount) internal {
         nftContract.mintNft(amount);
-    }
+    } */
 
     // Function to receive Ether. msg.data must be empty
     receive() external payable {

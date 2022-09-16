@@ -6,12 +6,14 @@ async function main() {
     await mynft.deployed();
     console.log(`MyNft deployed to ${mynft.address}`);
 
-    await mynft.mintNft(2);
+    console.log("Minting Nft...");
+    await mynft.mintNft(100);
 
     const counter = await mynft.getTokenCounter();
     console.log("You own", counter, "Nft's");
-    const amount = await mynft.getAmount();
-    console.log(amount);
+    const burned = await mynft.getburnedToken();
+    console.log("token burned:", burned);
+  
 }
 
 main().catch((error) => {
