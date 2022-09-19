@@ -36,6 +36,4 @@ contract MyNft is ERC721URIStorage{
         return burned;
     }
 
-
-    
 }
