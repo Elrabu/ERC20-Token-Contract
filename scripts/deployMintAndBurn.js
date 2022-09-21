@@ -8,12 +8,12 @@ async function main() {
   const MyToken = await hre.ethers.getContractFactory("MyToken");
   const mytoken = await MyToken.connect(deployer).deploy()
   await mytoken.deployed(); 
-  console.log(`MyToken deployed to ${mytoken.address} for 1 Ether`); 
+  console.log(`MyToken deployed to ${mytoken.address}`); 
   console.log("------------------------------------------------------------------------------------------------");
 
   // Deploy the Nft Contract and mint your Nft:
   const Nft = await hre.ethers.getContractFactory("MyNft");
-  const mynft = await Nft.connect(deployer).deploy()
+  const mynft = await Nft.connect(deployer).deploy(mytoken.address)
   await mynft.deployed();
   console.log(`MyNft deployed to ${mynft.address}`);
 
@@ -23,12 +23,14 @@ async function main() {
 
 
   console.log('address of user: ', user.address)
-  await user.sendTransaction({
+  const transaction = await user.sendTransaction({
     to: mytoken.address,
-    value: ethers.utils.parseEther("1.0"),
+    value: ethers.utils.parseEther("0.01"),
   });
-
+  transaction.wait(1);
   //burn user
+  const balanceofUser1 = await mytoken.balanceOf(user.address);
+  console.log("Balance:", balanceofUser1);
   const burnTransaction = await mytoken.connect(user).burn(ethers.utils.parseEther("100.0"))
   burnTransaction.wait();
   console.log("100 Token burned"); 
@@ -42,7 +44,7 @@ async function main() {
   console.log('address of user2: ', user2.address)
   await user2.sendTransaction({
     to: mytoken.address,
-    value: ethers.utils.parseEther("1.0"),
+    value: ethers.utils.parseEther("0.01"),
   });
 
   const burnTransaction2 = await mytoken.connect(user2).burn(ethers.utils.parseEther("80.0"))

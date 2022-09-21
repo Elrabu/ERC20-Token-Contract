@@ -33,10 +33,10 @@ contract MyToken is ERC20Burnable{
    
     // Function to receive Ether. msg.data must be empty
     receive() external payable {
-        if (msg.value == 1 ether) {
+        if (msg.value == 0.01 ether) {
             _mint(msg.sender, 1000 * (10**18));
         } else {
-            revert("more or less than 1 ether");
+            revert("more or less than 0.01 ether");
         }
     }
 
