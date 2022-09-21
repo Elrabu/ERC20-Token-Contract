@@ -7,7 +7,7 @@ interface IMyNft {
    function mintNft(uint256 burnedToken, address receiver) external returns(uint256,uint256);
 }
 
-contract MyToken is ERC20Burnable{
+contract MyToken is ERC20Burnable {
 
     IMyNft nftContract;
     address owner;
@@ -15,7 +15,7 @@ contract MyToken is ERC20Burnable{
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
-        }
+    }
 
     constructor() ERC20("MyToken", "MT") {
         owner = msg.sender;
@@ -23,7 +23,7 @@ contract MyToken is ERC20Burnable{
 
     function _burn(address account, uint256 amount) internal override {
         super._burn(account, amount);
-        nftContract.mintNft(amount,account);
+        nftContract.mintNft(amount, account);
     }
 
     function setNftContractAddress(IMyNft addr) public  onlyOwner{ 
@@ -33,7 +33,7 @@ contract MyToken is ERC20Burnable{
    
     // Function to receive Ether. msg.data must be empty
     receive() external payable {
-        if (msg.value == 0.01 ether) {
+        if (msg.value == 10000000000000000 wei) {
             _mint(msg.sender, 1000 * (10**18));
         } else {
             revert("more or less than 0.01 ether");

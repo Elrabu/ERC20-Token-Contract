@@ -21,38 +21,41 @@ async function main() {
   // Set the address of NFT contract in Token Contract
   await mytoken.connect(deployer).setNftContractAddress(mynft.address)
 
-
   console.log('address of user: ', user.address)
-  const transaction = await user.sendTransaction({
+  const transactionSendEther = await user.sendTransaction({
     to: mytoken.address,
-    value: ethers.utils.parseEther("0.01"),
+    from: user.address,
+    value: ethers.BigNumber.from("10000000000000000"), // 0.01 ether
   });
-  transaction.wait(1);
-  //burn user
+  await transactionSendEther.wait(2);
   const balanceofUser1 = await mytoken.balanceOf(user.address);
+
+  //burn user
   console.log("Balance:", balanceofUser1);
-  const burnTransaction = await mytoken.connect(user).burn(ethers.utils.parseEther("100.0"))
-  burnTransaction.wait();
+  const burnTransaction = await mytoken.connect(user).burn(ethers.BigNumber.from("100000000000000000000")) // 100 Tokens
+  await burnTransaction.wait(2);
   console.log("100 Token burned"); 
   console.log("Minting Nft...");
   
-  const tokenURI = await mynft.tokenURI(0);
+  const tokenURI = await mynft.tokenURI(ethers.BigNumber.from("0"));
   console.log("User TokenURI is: ",tokenURI);
 
   console.log("------------------------------------------------------------------------------------------------");
   //User2
   console.log('address of user2: ', user2.address)
-  await user2.sendTransaction({
+  const txSendEtherByUser2 = await user2.sendTransaction({
     to: mytoken.address,
-    value: ethers.utils.parseEther("0.01"),
+    from: user2.address,
+    value: ethers.BigNumber.from("10000000000000000")
   });
+  await txSendEtherByUser2.wait(2)
 
-  const burnTransaction2 = await mytoken.connect(user2).burn(ethers.utils.parseEther("80.0"))
-  burnTransaction2.wait();
+  const burnTransaction2 = await mytoken.connect(user2).burn(ethers.BigNumber.from("80000000000000000000")) // 80 Token
+  await burnTransaction2.wait(2);
   console.log("80 Token burned"); 
   console.log("Minting Nft...");
   
-  const tokenURI2 = await mynft.tokenURI(1);
+  const tokenURI2 = await mynft.tokenURI(ethers.BigNumber.from("1"));
   console.log("User TokenURI is: ",tokenURI2);
 }
 
